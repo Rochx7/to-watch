@@ -1,4 +1,4 @@
-export function authMiddleware(req,reply){
+export async function authMiddleware(req,reply){
   const apiToken = req.headers["token"]
 
   if(!apiToken){
