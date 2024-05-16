@@ -14,7 +14,7 @@ export class UserUseCase {
       throw new Error("User already exists")
     }
 
-    const result = await this.UserRepository.create({ email,name,userName })
+    const result = await this.UserRepository.create({ email, name, userName })
     return result
   }
 

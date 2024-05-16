@@ -8,7 +8,7 @@ class UserRepositoryPrisma implements UserRepository {
       data:{
         email: data.email,
         name: data.name,
-        userName: data.userName,
+        userName: data.userName
       }
     })
     return result

@@ -1,14 +1,13 @@
+import { User } from "./users.interface"
+
 export interface List{
-  id: string
-  user: string
-  userId: string
   watchList: string[]
   watched: string[]
   liked: string[]
 }
 
 export interface ListCreate {
-  userToken: string
+  userToken: number
   watchList: string[]
   watched: string[]
   liked: string[]
@@ -16,5 +15,5 @@ export interface ListCreate {
 
 export interface ListRepository{
   create(data:ListCreate): Promise<List>
-  
+  findByToken(token:number): Promise<User | null>
 }
