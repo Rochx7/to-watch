@@ -11,13 +11,27 @@ class ListUseCase{
     this.userRepository = new UserRepositoryPrisma()
   }
 
-  async create({ liked, watchList, watched, userToken}: ListCreate){
-    const user = await this.listRepository.findByToken(userToken)
+  async create(userToken: number){
+    const user = await this.userRepository.findByToken(userToken)
 
     if(!user){
       throw new Error("User not found")
     }
     
+    const result = await this.listRepository.createList({userToken})
+    
+    return result
+  }
+  async getList({idUser}:{idUser:number}){
+    const listUser = await this.listRepository.getListByIdUser({idUser})
+    
+    return listUser
+  }
+  
+  async addNewInWatchList(data:{idUser:number, itemToAdd: string}){
+    const result = await this.listRepository.addNewInWatchList(data)
+    
+    return result
   }
 
 }

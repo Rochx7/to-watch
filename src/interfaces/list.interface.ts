@@ -5,6 +5,11 @@ export interface List{
   watched: string[]
   liked: string[]
 }
+export interface ListReturn extends User{
+  watchList: string[]
+  watched: string[]
+  liked: string[]
+}
 
 export interface ListCreate {
   userToken: number
@@ -14,6 +19,7 @@ export interface ListCreate {
 }
 
 export interface ListRepository{
-  create(data:ListCreate): Promise<List>
-  findByToken(token:number): Promise<User | null>
+  createList({userToken}:{userToken: number}): Promise<List>
+  getListByIdUser({idUser}:{idUser: number}): Promise<List[]>
+  addNewInWatchList(data:{idUser:number,itemToAdd:string}): Promise<List | null>
 }
