@@ -8,7 +8,14 @@ class UserRepositoryPrisma implements UserRepository {
       data:{
         email: data.email,
         name: data.name,
-        userName: data.userName
+        userName: data.userName,
+        lists:{
+          create:{
+            watchList:[],
+            watched:[],
+            liked:[]
+          }
+        }
       }
     })
     return result
@@ -18,6 +25,16 @@ class UserRepositoryPrisma implements UserRepository {
     const result = await prisma.user.findFirst({
       where:{
         email
+      }
+    })
+    
+    return result || null
+  }
+
+  async findByToken(token: number): Promise<User | null>{
+    const result = await prisma.user.findFirst({
+      where:{
+        id: token
       }
     })
     
