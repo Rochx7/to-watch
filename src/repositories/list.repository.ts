@@ -1,5 +1,5 @@
 import { prisma } from "../database/prisma-client";
-import { List, ListCreate, ListRepository } from "../interfaces/list.interface";
+import { List, ListRepository } from "../interfaces/list.interface";
 
 class ListRepositoryPrisma implements ListRepository{
   async createList({ userToken }:{ userToken:number }): Promise<List> {   
@@ -29,12 +29,12 @@ class ListRepositoryPrisma implements ListRepository{
     return result || null
   }
 
-  async addNewInWatchList(data:{idUser:number,itemToAdd:string}): Promise<List | null> {   
+  async addNewInWatchList({idUser,itemToAdd}:{idUser:number,itemToAdd:string}): Promise<List | null> {   
     
     try {
       const user = await prisma.user.findUnique({
         where: {
-          id: data.idUser,
+          id: idUser,
         },
       });
   
@@ -44,7 +44,7 @@ class ListRepositoryPrisma implements ListRepository{
   
       const list = await prisma.list.findFirst({
         where: {
-          userId: data.idUser,
+          userId: idUser,
         },
       });
   
@@ -58,7 +58,7 @@ class ListRepositoryPrisma implements ListRepository{
         },
         data: {
           watchList: {
-            push: data.itemToAdd,
+            push: itemToAdd,
           },
         },
       });
