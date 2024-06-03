@@ -28,4 +28,13 @@ export class UserController {
       reply.code(500).send(error);
     }
   }
+
+  async getUsersList(req: FastifyRequest, reply: FastifyReply) {
+    try {
+      const listUser = await this.UserRepository.getUsersList();
+      return reply.code(200).send(listUser);
+    } catch (error) {
+      reply.code(500).send(error);
+    }
+  }
 }
