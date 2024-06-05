@@ -29,9 +29,9 @@ export class UserController {
     }
   }
 
-  async getUsersList(req: FastifyRequest, reply: FastifyReply) {
+  async getUsersWithList(req: FastifyRequest, reply: FastifyReply) {
     try {
-      const listUser = await this.UserRepository.getUsersList();
+      const listUser = await this.UserRepository.getUsersWithList();
       return reply.code(200).send(listUser);
     } catch (error) {
       reply.code(500).send(error);

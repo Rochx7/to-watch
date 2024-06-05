@@ -24,7 +24,7 @@ class UserRepositoryPrisma implements UserRepository {
     return result;
   }
 
-  async getUsersList(): Promise<User[]> {
+  async getUsersWithList(): Promise<User[]> {
     const result = await prisma.user.findMany({
       include: {
         lists: true,

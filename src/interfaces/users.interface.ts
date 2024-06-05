@@ -5,7 +5,7 @@ export interface User {
   email: string;
   name: string;
   userName: string;
-  lists?: List[];
+  list?: List | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -18,7 +18,7 @@ export interface UserCreate {
 
 export interface UserRepository {
   create(data: UserCreate): Promise<User>;
-  getUsersList(): Promise<User[]>;
+  getUsersWithList(): Promise<User[] | null>;
   findByEmail(email: string): Promise<User | null>;
   findByToken(token: number): Promise<User | null>;
 }

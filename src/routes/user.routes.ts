@@ -8,6 +8,6 @@ export async function userRoutes(fastify: FastifyInstance) {
     userController.create(req, reply)
   );
   fastify.get<{ Body: UserCreate }>("/", (req, reply) =>
-    userController.getUsersList(req, reply)
+    userController.getUsersWithList(req, reply)
   );
 }

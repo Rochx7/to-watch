@@ -1,7 +1,8 @@
 export interface List {
-  watchList: string[];
-  watched: string[];
-  liked: string[];
+  id: number;
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ListCreate {
@@ -13,7 +14,7 @@ export interface ListCreate {
 
 export interface ListRepository {
   createList({ userToken }: { userToken: number }): Promise<List>;
-  getListByIdUser({ idUser }: { idUser: number }): Promise<List[]>;
+  getListByIdUser({ idUser }: { idUser: number }): Promise<List>;
   addNewInWatchList(data: {
     idUser: number;
     itemToAdd: string;

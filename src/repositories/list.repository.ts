@@ -14,7 +14,8 @@ class ListRepositoryPrisma implements ListRepository {
 
     return result || null;
   }
-  async getListByIdUser({ idUser }: { idUser: number }): Promise<List[]> {
+
+  async getListByIdUser({ idUser }: { idUser: number }): Promise<List> {
     const result = await prisma.list.findMany({
       where: {
         user: {
