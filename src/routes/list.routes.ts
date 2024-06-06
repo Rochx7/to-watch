@@ -17,6 +17,17 @@ export async function listRoutes(fastify: FastifyInstance) {
     }
   });
 
+  fastify.post<{ Body: ListCreate }>("/", async (req, reply) => {
+    const { token } = req.headers["token"];
+    try {
+      const data = await listController.create(token);
+
+      return reply.send(data);
+    } catch (error) {
+      reply.send(error);
+    }
+  });
+
   fastify.put<{ Body: { itemToAdd: string; idUser: number } }>(
     "/",
     async (req, reply) => {
@@ -33,14 +44,23 @@ export async function listRoutes(fastify: FastifyInstance) {
     }
   );
 
-  fastify.post<{ Body: ListCreate }>("/", async (req, reply) => {
-    const { token } = req.headers["token"];
-    try {
-      const data = await listController.create(token);
+  fastify.patch("/:id/liked", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    const { itemToAdd } = req.body as { itemToAdd: string };
 
-      return reply.send(data);
-    } catch (error) {
-      reply.send(error);
+    try {
+      const data = { idUser: Number(id), itemToAdd };
+      const response = await listController.addNewInLikedList(data);
+
+      if (!response) {
+        return reply
+          .status(404)
+          .send({ error: "List not found for the given user." });
+      }
+
+      return reply.send(response);
+    } catch (error: any) {
+      reply.status(400).send({ error: error.message });
     }
   });
 }

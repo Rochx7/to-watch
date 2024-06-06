@@ -33,4 +33,10 @@ export class ListController {
 
     return result;
   }
+
+  async addNewInLikedList(data: { idUser: number; itemToAdd: string }) {
+    const result = await this.listRepository.addNewInLikedList(data);
+
+    return result;
+  }
 }

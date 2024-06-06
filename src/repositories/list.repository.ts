@@ -2,7 +2,7 @@ import { prisma } from "../database/prisma-client";
 import { List, ListRepository } from "../interfaces/list.interface";
 
 class ListRepositoryPrisma implements ListRepository {
-  async createList({ userToken }: { userToken: number }): Promise<List> {
+  async createList({ userToken }: { userToken: number }): Promise<List | null> {
     const result = await prisma.list.create({
       data: {
         liked: [],
@@ -12,22 +12,20 @@ class ListRepositoryPrisma implements ListRepository {
       },
     });
 
-    return result || null;
+    return result;
   }
 
-  async getListByIdUser({ idUser }: { idUser: number }): Promise<List> {
-    const result = await prisma.list.findMany({
+  async getListByIdUser({ idUser }: { idUser: number }): Promise<List | null> {
+    const result = await prisma.list.findFirst({
       where: {
-        user: {
-          id: idUser,
-        },
+        userId: idUser,
       },
       include: {
         user: false,
       },
     });
 
-    return result || null;
+    return result;
   }
 
   async addNewInWatchList({
@@ -74,6 +72,37 @@ class ListRepositoryPrisma implements ListRepository {
       console.error("Error adding item to watchList:", error);
       return null;
     }
+  }
+
+  async addNewInLikedList({
+    idUser,
+    itemToAdd,
+  }: {
+    idUser: number;
+    itemToAdd: string;
+  }): Promise<List | null> {
+    const list = await prisma.list.findFirst({
+      where: {
+        userId: idUser,
+      },
+    });
+
+    if (!list) {
+      throw new Error("List not found for the given user.");
+    }
+
+    const result = await prisma.list.update({
+      where: {
+        id: list.id,
+      },
+      data: {
+        liked: {
+          push: itemToAdd,
+        },
+      },
+    });
+
+    return result;
   }
 }
 export { ListRepositoryPrisma };
