@@ -22,6 +22,7 @@ export class ListController {
 
     return result;
   }
+
   async getList({ idUser }: { idUser: number }) {
     const listUser = await this.listRepository.getListByIdUser({ idUser });
 

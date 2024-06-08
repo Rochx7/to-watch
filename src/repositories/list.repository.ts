@@ -36,16 +36,6 @@ class ListRepositoryPrisma implements ListRepository {
     itemToAdd: string;
   }): Promise<List | null> {
     try {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: idUser,
-        },
-      });
-
-      if (!user) {
-        throw new Error("User not found.");
-      }
-
       const list = await prisma.list.findFirst({
         where: {
           userId: idUser,
@@ -53,10 +43,10 @@ class ListRepositoryPrisma implements ListRepository {
       });
 
       if (!list) {
-        throw new Error("List not found.");
+        throw new Error("List not found for the given user.");
       }
 
-      const updatedList = await prisma.list.update({
+      const result = await prisma.list.update({
         where: {
           id: list.id,
         },
@@ -67,7 +57,7 @@ class ListRepositoryPrisma implements ListRepository {
         },
       });
 
-      return updatedList;
+      return result;
     } catch (error) {
       console.error("Error adding item to watchList:", error);
       return null;
