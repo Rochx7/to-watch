@@ -6,19 +6,11 @@ import { authMiddleware } from "../middlewares/auth.middlewares";
 export async function listRoutes(fastify: FastifyInstance) {
   const listController = new ListController();
   fastify.addHook("preHandler", authMiddleware);
-  fastify.get<{ Params: { id: number } }>("/:id", async (req, reply) => {
-    const { id } = req.params;
-    try {
-      const data = await listController.getList({ idUser: Number(id) });
 
-      return reply.send(data);
-    } catch (error) {
-      reply.send(error);
-    }
-  });
+  fastify.get("/:id", listController.getList);
 
   fastify.post<{ Body: ListCreate }>("/", async (req, reply) => {
-    const { token } = req.headers["token"];
+    const { token }: any = req.headers["token"];
     try {
       const data = await listController.create(token);
 
