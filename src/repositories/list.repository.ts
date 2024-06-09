@@ -2,19 +2,6 @@ import { prisma } from "../database/prisma-client";
 import { List, ListRepository } from "../interfaces/list.interface";
 
 class ListRepositoryPrisma implements ListRepository {
-  async createList({ userToken }: { userToken: number }): Promise<List | null> {
-    const result = await prisma.list.create({
-      data: {
-        liked: [],
-        watched: [],
-        watchList: [],
-        userId: userToken,
-      },
-    });
-
-    return result;
-  }
-
   async getListByIdUser({ idUser }: { idUser: number }): Promise<List | null> {
     const result = await prisma.list.findFirst({
       where: {

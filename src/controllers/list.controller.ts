@@ -12,26 +12,6 @@ export class ListController {
     this.userRepository = new UserRepositoryPrisma();
   }
 
-  createNewList = async (req: FastifyRequest, reply: FastifyReply) => {
-    const userToken = req.headers["token"];
-
-    try {
-      const user = await this.userRepository.findByToken(Number(userToken));
-
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      const result = await this.listRepository.createList({
-        userToken: Number(userToken),
-      });
-
-      return reply.send(result);
-    } catch (error) {
-      reply.send(error);
-    }
-  };
-
   getList = async (req: FastifyRequest, reply: FastifyReply) => {
     const { id }: any = req.params;
     try {

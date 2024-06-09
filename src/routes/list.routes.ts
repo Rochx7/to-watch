@@ -9,17 +9,6 @@ export async function listRoutes(fastify: FastifyInstance) {
 
   fastify.get("/:id", listController.getList);
 
-  fastify.post<{ Body: ListCreate }>("/", async (req, reply) => {
-    const { token }: any = req.headers["token"];
-    try {
-      const data = await listController.create(token);
-
-      return reply.send(data);
-    } catch (error) {
-      reply.send(error);
-    }
-  });
-
   fastify.put<{ Body: { itemToAdd: string; idUser: number } }>(
     "/",
     async (req, reply) => {

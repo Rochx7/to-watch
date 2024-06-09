@@ -14,7 +14,6 @@ export interface ListCreate {
 }
 
 export interface ListRepository {
-  createList({ userToken }: { userToken: number }): Promise<List | null>;
   getListByIdUser({ idUser }: { idUser: number }): Promise<List | null>;
   addNewInWatchList(data: {
     idUser: number;
